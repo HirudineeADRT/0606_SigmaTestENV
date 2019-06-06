@@ -1,0 +1,181 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "9661bf1b-e3ec-4590-8eaa-d50cfcb89755": {
+        "id": "9661bf1b-e3ec-4590-8eaa-d50cfcb89755",
+        "parent": null,
+        "name": "0606_SigmaTestENV",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "5917cf1c-21a5-4294-acee-dbe573354f1b",
+          "b31d60cc-fb68-4f3b-ac0b-6921438c6834",
+          "f43752eb-d344-4903-8f7a-04d8c3b08d3f"
+        ],
+        "isRemovable": false,
+        "filePath": "0606_SigmaTestENV"
+      },
+      "5917cf1c-21a5-4294-acee-dbe573354f1b": {
+        "id": "5917cf1c-21a5-4294-acee-dbe573354f1b",
+        "parent": "9661bf1b-e3ec-4590-8eaa-d50cfcb89755",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "0606_SigmaTestENV/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nconst s3 = new AWS.S3();\n\nexports.handler = function (event, context, callback) {\n    debugger;\n    s3.listObjects({\n        'Bucket': 'as2-test-lahiru',\n        'MaxKeys': 10,\n        'Prefix': ''\n    }).promise()\n        .then(data => {\n            console.log(data);           // successful response\n            /*\n            data = {\n             Contents: [\n                {\n                   ETag: \"\\\"70ee1738b6b21e2c8a43f3a5ab0eee71\\\"\",\n                   Key: \"example1.jpg\",\n                   LastModified: <Date Representation>,\n                   Owner: {\n                      DisplayName: \"myname\",\n                      ID: \"12345example25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc\"\n                   },\n                   Size: 11,\n                   StorageClass: \"STANDARD\"\n                },\n                {...}\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    let test = event;\n    console.log(\"Test \", test);\n    //callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "8bc98e7e-b643-492c-8551-a778165948bb": {
+            "id": "8bc98e7e-b643-492c-8551-a778165948bb",
+            "name": "First Test - No Added events or resources",
+            "functionId": "5917cf1c-21a5-4294-acee-dbe573354f1b",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "b31d60cc-fb68-4f3b-ac0b-6921438c6834": {
+        "id": "b31d60cc-fb68-4f3b-ac0b-6921438c6834",
+        "parent": "9661bf1b-e3ec-4590-8eaa-d50cfcb89755",
+        "name": "hirudinee.py",
+        "type": "PYTHON_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "0606_SigmaTestENV/hirudinee.py",
+        "code": "import boto3\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n    try:\n        data = s3.list_objects(\n            Bucket='hirudinee-test001',\n            MaxKeys=10,\n            Prefix=''\n        )\n        \"\"\"return {\"message\" : data}\"\"\"\n        \"\"\"\n        data = {\n            Contents: [\n               {\n                  ETag: \"\\\"70ee1738b6b21e2c8a43f3a5ab0eee71\\\"\",\n                  Key: \"example1.jpg\",\n                  LastModified: <Date Representation>,\n                  Owner: {\n                     DisplayName: \"myname\",\n                     ID: \"12345example25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc\"\n                  },\n                  Size: 11,\n                  StorageClass: \"STANDARD\"\n               },\n               {...}\n           ]\n        }\n        \"\"\"\n    except BaseException as e:\n        print(e)\n    \n    return {\"message\": \"Successfully executed\"}\n",
+        "config": {
+          "runtime": "python3.6",
+          "handler": "handler",
+          "timeout": 299,
+          "memory": 256,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "a8319131-5898-4f9c-acc0-4b2638ab72c2": {
+            "id": "a8319131-5898-4f9c-acc0-4b2638ab72c2",
+            "name": "adding a test to python",
+            "functionId": "b31d60cc-fb68-4f3b-ac0b-6921438c6834",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "f43752eb-d344-4903-8f7a-04d8c3b08d3f": {
+        "id": "f43752eb-d344-4903-8f7a-04d8c3b08d3f",
+        "parent": "9661bf1b-e3ec-4590-8eaa-d50cfcb89755",
+        "name": "Hirutestpy002.py",
+        "type": "PYTHON_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "0606_SigmaTestENV/Hirutestpy002.py",
+        "code": "import boto3\ns3 = boto3.client(\"s3\")\n\ndef handler(event, context):\n\n    try:\n        data = s3.list_objects(\n            Bucket='as2-test-lahiru',\n            MaxKeys=10,\n            Prefix=''\n        )\n\n        print(\"Data\", data)\n    \n        \"\"\"\n        data = {\n            Contents: [\n               {\n                  ETag: \"\\\"70ee1738b6b21e2c8a43f3a5ab0eee71\\\"\",\n                  Key: \"example1.jpg\",\n                  LastModified: <Date Representation>,\n                  Owner: {\n                     DisplayName: \"myname\",\n                     ID: \"12345example25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc\"\n                  },\n                  Size: 11,\n                  StorageClass: \"STANDARD\"\n               },\n               {...}\n           ]\n        }\n        \"\"\"\n    except BaseException as e:\n        print(\"Error\", e)\n\n\n\n\n\n    \n    return {\"message\": \"data\"}\n",
+        "config": {
+          "runtime": "python3.6",
+          "handler": "handler",
+          "timeout": 142,
+          "memory": 320,
+          "layers": []
+        },
+        "triggers": [],
+        "testCases": {
+          "737dba9f-7314-4400-ab8c-df7e464e4a78": {
+            "id": "737dba9f-7314-4400-ab8c-df7e464e4a78",
+            "name": "Test execution python",
+            "functionId": "f43752eb-d344-4903-8f7a-04d8c3b08d3f",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "9661bf1b-e3ec-4590-8eaa-d50cfcb89755",
+    "openFiles": [
+      "5917cf1c-21a5-4294-acee-dbe573354f1b",
+      "b31d60cc-fb68-4f3b-ac0b-6921438c6834",
+      "f43752eb-d344-4903-8f7a-04d8c3b08d3f"
+    ],
+    "currentFileId": "f43752eb-d344-4903-8f7a-04d8c3b08d3f",
+    "resources": {
+      "s3hirudineeTest001": {
+        "name": "s3hirudineeTest001",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "hirudinee-test001"
+          }
+        }
+      },
+      "s3as2TestLahiru": {
+        "name": "s3as2TestLahiru",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "as2-test-lahiru"
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "boto3": {
+          "name": "boto3",
+          "language": "python",
+          "version": "1.9.6",
+          "dev": true,
+          "notRemovable": false
+        },
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "0606_SigmaTestENV",
+    "projectDescription": "This Project is created to understan sigma test and debug env",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1559809272959
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "0606_SigmaTestENV",
+      "url": "https://github.com/HirudineeADRT/0606_SigmaTestENV"
+    }
+  }
+}
